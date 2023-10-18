@@ -7,13 +7,27 @@
 
 import UIKit
 
-class ColorViewController: UIViewController {
+final class ColorViewController: UIViewController {
+    
+    var initialColor = UIColor.purple
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        view.backgroundColor = initialColor
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let adjustVC = segue.destination as? AdjustViewController
+        else { return }
+        adjustVC.delegate = self
+        adjustVC.setSecondaryColor(initialColor)
+    }
 
 }
 
+extension ColorViewController: AdjustViewControllerDelegate {
+    func setMainColor(_ color: UIColor) {
+        view.backgroundColor = color
+        initialColor = color
+    }
+}
